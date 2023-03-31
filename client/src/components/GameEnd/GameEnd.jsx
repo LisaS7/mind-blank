@@ -1,7 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
-import { setStatus, setScore } from "../../state/quizSlice";
+import { setStatus, setScore, newHighScore } from "../../state/quizSlice";
+import { postHighscores } from "../../HighscoreService";
 import { Player, Controls } from "@lottiefiles/react-lottie-player";
 import { winScore } from "../../constants";
 import hostCrayons from "./host_crayons.png";
@@ -33,7 +34,7 @@ const alienVariants = {
 
 export default function GameEnd({ getData }) {
   const dispatch = useDispatch();
-  const { score } = useSelector((state) => state.quiz);
+  const { score, highscore } = useSelector((state) => state.quiz);
 
   function handleClick() {
     dispatch(setStatus("menu"));
@@ -52,6 +53,11 @@ export default function GameEnd({ getData }) {
     speechBubble1 = speechBubbleLose1;
     speechBubble2 = speechBubbleLose2;
     alien = "https://assets8.lottiefiles.com/packages/lf20_2bjwh0kp.json";
+  }
+
+  if (score > highscore) {
+    dispatch(newHighScore(score));
+    postHighscores({ highscores: score });
   }
 
   return (

@@ -1,20 +1,17 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setHighScore, newHighScore } from "../state/quizSlice";
+import { setHighScore } from "../state/quizSlice";
+import { getHighscores } from "../HighscoreService";
 import GameEnd from "../components/GameEnd/GameEnd";
 import { GameMenu } from "../components/GameMenu";
 import Loading from "../components/Loading";
 import QuizContainer from "./QuizContainer";
-import { getHighscores, postHighscores } from "../HighscoreService";
 
 export default function GameContainer() {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
-  // const [score, setScore] = useState(0);
 
-  const { status, score, categories, difficulty, highscore } = useSelector(
-    (state) => state.quiz
-  );
+  const { status, categories, difficulty } = useSelector((state) => state.quiz);
 
   async function getData() {
     const url = `https://the-trivia-api.com/api/questions?${
@@ -34,12 +31,6 @@ export default function GameContainer() {
       dispatch(setHighScore(highscoreData));
     });
   }, []);
-
-  // move logic to game end
-  if (status === "end" && score > highscore) {
-    dispatch(newHighScore(score));
-    postHighscores({ highscore: score });
-  }
 
   if (!data.length) return <Loading />;
 
