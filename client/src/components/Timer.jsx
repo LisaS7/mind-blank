@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setStatus } from "../state/quizSlice";
 import "./Timer.css";
 
-const Timer = ({ timerStarted }) => {
+const Timer = () => {
   const dispatch = useDispatch();
   const { timer } = useSelector((state) => state.quiz);
   const [timeLeft, setTimeLeft] = useState(timer.duration);
@@ -15,7 +15,7 @@ const Timer = ({ timerStarted }) => {
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, [timerStarted]);
+  }, [timer.started]);
 
   let percentageLeft = (timeLeft / timer.duration) * 100;
 

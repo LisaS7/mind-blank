@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setScore, restartGame } from "../state/quizSlice";
+import { setScore, restartGame, toggleTimerStarted } from "../state/quizSlice";
 import Answer from "../components/Answer";
 import Question from "../components/Question";
 import {
@@ -22,7 +22,6 @@ export default function QuizContainer({ data, getData }) {
   const [questions, setQuestions] = useState([]);
   const [displayAnswer, setDisplayAnswer] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
-  const [timerStarted, setTimerStarted] = useState(true);
   const [previousScore, setPreviousScore] = useState(0);
 
   function questionAnswered() {
@@ -50,8 +49,7 @@ export default function QuizContainer({ data, getData }) {
     dispatch(setScore(0));
     setQuestions(data);
     getData();
-
-    setTimerStarted(!timerStarted);
+    dispatch(toggleTimerStarted());
   }
 
   useEffect(() => {
@@ -131,7 +129,7 @@ export default function QuizContainer({ data, getData }) {
         )}
 
         <div>
-          <Timer timerStarted={timerStarted} />
+          <Timer />
         </div>
 
         <Answer
