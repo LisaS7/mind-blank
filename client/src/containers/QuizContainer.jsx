@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setStatus } from "../state/quizSlice";
 import Answer from "../components/Answer";
 import Question from "../components/Question";
 import {
@@ -16,12 +18,13 @@ import "./QuizContainer.css";
 export default function QuizContainer({
   data,
   setGameEnded,
-  setStartGame,
   getData,
-  highestScore,
   score,
   setScore,
 }) {
+  const dispatch = useDispatch();
+  const { highscore } = useSelector((state) => state.quiz);
+
   const [questions, setQuestions] = useState([]);
   const [displayAnswer, setDisplayAnswer] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
@@ -46,7 +49,7 @@ export default function QuizContainer({
   }
 
   function handleReturn() {
-    setStartGame(false);
+    dispatch(setStatus("menu"));
     setScore(0);
     getData();
   }
@@ -92,7 +95,7 @@ export default function QuizContainer({
         <button onClick={handleReset}>Reset</button>
       </div>
       <div className="scores-container">
-        <p className="score">Highscore ${highestScore}</p>
+        <p className="score">Highscore ${highscore}</p>
         <div>
           Score{" $"}
           <div className="score-numbers">

@@ -39,7 +39,7 @@ function App() {
   const handleClick = () => {
     togglePlay();
     setTimeout(() => {
-      dispatch(setStatus("play"));
+      dispatch(setStatus("menu"));
     }, "100");
   };
 
@@ -75,6 +75,7 @@ function App() {
       );
 
     case "play":
+    default:
       return (
         <div className="App">
           <MusicPlayer />

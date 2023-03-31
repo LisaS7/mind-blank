@@ -1,5 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { useSelector, useDispatch } from "react-redux";
+import { setStatus } from "../../state/quizSlice";
 import { Player, Controls } from "@lottiefiles/react-lottie-player";
 import { winScore } from "../../constants";
 import hostCrayons from "./host_crayons.png";
@@ -29,16 +31,11 @@ const alienVariants = {
   animate: { scale: 1, transition: { duration: 0.5, delay: 8.5 } },
 };
 
-export default function GameEnd({
-  setStartGame,
-  setGameEnded,
-  setScore,
-  score,
-  getData,
-}) {
+export default function GameEnd({ setScore, score, getData }) {
+  const dispatch = useDispatch();
+
   function handleClick() {
-    setStartGame(false);
-    setGameEnded(false);
+    dispatch(setStatus("menu"));
     setScore(0);
     getData();
   }

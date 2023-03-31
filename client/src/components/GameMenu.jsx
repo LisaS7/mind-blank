@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { setCategory, setDifficulty } from "../state/quizSlice";
+import { setStatus, setCategory, setDifficulty } from "../state/quizSlice";
 import { motion } from "framer-motion";
 import { categories, difficulties } from "../constants";
 import "./GameMenu.css";
@@ -28,7 +28,7 @@ const startButtonVariants = {
   },
 };
 
-export function GameMenu({ setStartGame }) {
+export function GameMenu() {
   const dispatch = useDispatch();
   const [hiddenCategory, setHiddenCategory] = useState(true);
   const [hiddenDifficulty, setHiddenDifficulty] = useState(true);
@@ -90,7 +90,7 @@ export function GameMenu({ setStartGame }) {
   };
 
   const handleStartGame = () => {
-    setStartGame(true);
+    dispatch(setStatus("play"));
   };
 
   return (

@@ -10,13 +10,12 @@ import { getHighscores, postHighscores } from "../HighscoreService";
 export default function GameContainer() {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
-  const [startGame, setStartGame] = useState(false);
   const [gameEnded, setGameEnded] = useState(false);
   const [score, setScore] = useState(0);
 
-  const { categories } = useSelector((state) => state.quiz);
-  const { difficulty } = useSelector((state) => state.quiz);
-  const { highscore } = useSelector((state) => state.quiz);
+  const { status, categories, difficulty, highscore } = useSelector(
+    (state) => state.quiz
+  );
 
   async function getData() {
     const url = `https://the-trivia-api.com/api/questions?${
@@ -44,7 +43,7 @@ export default function GameContainer() {
 
   if (!data.length) return <Loading />;
 
-  if (!startGame) {
+  if (status === "menu") {
     return (
       <div>
         <div className="logo">
@@ -52,7 +51,7 @@ export default function GameContainer() {
             M<span>in</span>d<span></span> <span>B</span>lan<span>k</span>
           </b>
         </div>
-        <GameMenu setStartGame={setStartGame} />
+        <GameMenu />
       </div>
     );
   }
@@ -62,8 +61,7 @@ export default function GameContainer() {
       <div>
         <GameEnd
           score={score}
-          setStartGame={setStartGame}
-          setGameEnded={setGameEnded}
+          setGameEnded={setGameEnded} // remove
           setScore={setScore}
           getData={getData}
         />
@@ -77,9 +75,7 @@ export default function GameContainer() {
         data={data}
         gameEnded={gameEnded}
         setGameEnded={setGameEnded}
-        setStartGame={setStartGame}
         getData={getData}
-        highestScore={highscore}
         score={score}
         setScore={setScore}
       />
