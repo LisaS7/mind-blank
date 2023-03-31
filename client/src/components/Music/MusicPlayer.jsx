@@ -1,10 +1,12 @@
 import { useState, useRef, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { backgroundMusicVolume } from "../../constants";
 import gameMusic from "./game.mp3";
 import "./MusicPlayer.css";
 
-export default function MusicPlayer({ intro }) {
+export default function MusicPlayer() {
   const song = useRef(new Audio(gameMusic));
+  const { status } = useSelector((state) => state.quiz);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(backgroundMusicVolume);
 
@@ -30,7 +32,7 @@ export default function MusicPlayer({ intro }) {
     setVolume(e.target.value);
   }
 
-  if (intro) {
+  if (status === "intro") {
     return null;
   }
 

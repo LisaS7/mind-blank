@@ -2,7 +2,6 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
 import { setStatus } from "./state/quizSlice";
-
 import "./App.css";
 import Intro from "./components/Intro/Intro";
 import GameContainer from "./containers/GameContainer";
