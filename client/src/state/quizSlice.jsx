@@ -3,6 +3,7 @@ import { createSlice, current } from "@reduxjs/toolkit";
 const initialState = {
   status: "start",
   categories: { list: [], urlString: "" },
+  difficulty: "",
 };
 
 export const quizSlice = createSlice({
@@ -34,9 +35,12 @@ export const quizSlice = createSlice({
         .toLowerCase()
         .replace(/ /g, "_");
     },
+    setDifficulty: (state, action) => {
+      state.difficulty = action.payload;
+    },
   },
 });
 
-export const { setStatus, setCategory, getCategoryString } = quizSlice.actions;
+export const { setStatus, setCategory, setDifficulty } = quizSlice.actions;
 
 export default quizSlice.reducer;

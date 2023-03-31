@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { setCategory } from "../state/quizSlice";
+import { setCategory, setDifficulty } from "../state/quizSlice";
 import { motion } from "framer-motion";
 import { categories, difficulties } from "../constants";
 import "./GameMenu.css";
-let selectedCategories = [];
 
 const menuVariants = {
   initial: { scale: 0, x: "10vw" },
@@ -29,7 +28,7 @@ const startButtonVariants = {
   },
 };
 
-export function GameMenu({ setStartGame, setDifficulty }) {
+export function GameMenu({ setStartGame }) {
   const dispatch = useDispatch();
   const [hiddenCategory, setHiddenCategory] = useState(true);
   const [hiddenDifficulty, setHiddenDifficulty] = useState(true);
@@ -73,8 +72,7 @@ export function GameMenu({ setStartGame, setDifficulty }) {
       key={index}
       onClick={(e) => {
         handleDifficulty(e);
-        const diff = e.target.textContent.toLowerCase();
-        setDifficulty(diff);
+        dispatch(setDifficulty(e.target.textContent.toLowerCase()));
       }}
     >
       {difficulty}
@@ -84,7 +82,6 @@ export function GameMenu({ setStartGame, setDifficulty }) {
   const handleHiddenCategory = () => {
     setHiddenCategory(!hiddenCategory);
     setHiddenDifficulty(true);
-    selectedCategories = [];
   };
 
   const handleHiddenDifficulty = () => {

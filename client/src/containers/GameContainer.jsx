@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getCategoryString } from "../state/quizSlice";
 import GameEnd from "../components/GameEnd/GameEnd";
 import { GameMenu } from "../components/GameMenu";
 import Loading from "../components/Loading";
@@ -10,7 +9,7 @@ import { getHighscores, postHighscores } from "../HighscoreService";
 export default function GameContainer() {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
-  const [difficulty, setDifficulty] = useState("");
+  // const [difficulty, setDifficulty] = useState("");
   const [startGame, setStartGame] = useState(false);
   const [gameEnded, setGameEnded] = useState(false);
   const [score, setScore] = useState(0);
@@ -19,9 +18,9 @@ export default function GameContainer() {
   const { list, urlString } = useSelector((state) => state.quiz.categories);
   const categories = [...list];
   const urlCategory = urlString;
+  const { difficulty } = useSelector((state) => state.quiz);
 
   async function getData() {
-    console.log("urlcat", urlCategory);
     const url = `https://the-trivia-api.com/api/questions?${
       categories.length && `categories=${urlCategory}`
     }&limit=50&${difficulty && `difficulty=${difficulty.toLowerCase()}`}`;
@@ -68,12 +67,7 @@ export default function GameContainer() {
             M<span>in</span>d<span></span> <span>B</span>lan<span>k</span>
           </b>
         </div>
-        <GameMenu
-          setStartGame={setStartGame}
-          setDifficulty={setDifficulty}
-          difficulty={difficulty}
-          category={categories} // REMOVE
-        />
+        <GameMenu setStartGame={setStartGame} />
       </div>
     );
   }
