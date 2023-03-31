@@ -27,7 +27,7 @@ const buttonVariants = {
   },
 };
 
-export default function Intro({ setIntro, handleClick, isPlaying }) {
+export default function Intro({ handleClick, isPlaying }) {
   const song = useRef(new Audio(backgroundMusic));
   song.current.volume = 0.1;
 

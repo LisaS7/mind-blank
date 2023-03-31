@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
 
 import "./App.css";
 import Intro from "./components/Intro/Intro";
@@ -27,65 +28,59 @@ const curtainVariants = {
 };
 
 function App() {
-  const [intro, setIntro] = useState(true);
-  const [start, setStart] = useState(false);
+  const [gameStatus, setGameStatus] = useState("start");
   const [isPlaying, setIsPlaying] = useState(false);
 
   const togglePlay = () => {
     setIsPlaying(!isPlaying);
   };
-  const toggleIntro = () => {
-    setIntro(!intro);
-  };
 
   const handleClick = () => {
     togglePlay();
     setTimeout(() => {
-      toggleIntro();
+      setGameStatus("play");
     }, "100");
   };
 
-  if (intro) {
-    return (
-      <div className="app-container">
-        {start ? (
-          <Intro
-            setIntro={setIntro}
-            handleClick={handleClick}
-            isPlaying={isPlaying}
+  switch (gameStatus) {
+    case "start":
+      return (
+        <div className="app-container">
+          <motion.img
+            className="full-curtain"
+            initial="initial"
+            animate="animate"
+            variants={curtainVariants}
+            src={fullCurtain}
           />
-        ) : (
-          <>
-            <motion.img
-              className="full-curtain"
-              initial="initial"
-              animate="animate"
-              variants={curtainVariants}
-              src={fullCurtain}
-            />
-            <motion.img
-              initial="initial"
-              animate="animate"
-              variants={startButtonVariants}
-              className="start-app-button"
-              src={startShow}
-              alt="start show button"
-              onClick={() => {
-                setStart(true);
-              }}
-            />
-          </>
-        )}
-      </div>
-    );
-  }
+          <motion.img
+            initial="initial"
+            animate="animate"
+            variants={startButtonVariants}
+            className="start-app-button"
+            src={startShow}
+            alt="start show button"
+            onClick={() => {
+              setGameStatus("intro");
+            }}
+          />
+        </div>
+      );
+    case "intro":
+      return (
+        <div className="app-container">
+          <Intro handleClick={handleClick} isPlaying={isPlaying} />
+        </div>
+      );
 
-  return (
-    <div className="App">
-      <MusicPlayer />
-      <GameContainer />
-    </div>
-  );
+    case "play":
+      return (
+        <div className="App">
+          <MusicPlayer />
+          <GameContainer />
+        </div>
+      );
+  }
 }
 
 export default App;
