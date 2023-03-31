@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setCategory } from "../state/quizSlice";
 import { motion } from "framer-motion";
 import { categories, difficulties } from "../constants";
 import "./GameMenu.css";
-import { Capitalise } from "../utils/capitalise";
 let selectedCategories = [];
 
 const menuVariants = {
@@ -61,7 +60,7 @@ export function GameMenu({ setStartGame, setDifficulty }) {
       key={index}
       onClick={(e) => handleClick(e)}
     >
-      {Capitalise(category.replaceAll("_", " "))}
+      {category}
     </motion.button>
   ));
 
@@ -78,7 +77,7 @@ export function GameMenu({ setStartGame, setDifficulty }) {
         setDifficulty(diff);
       }}
     >
-      {Capitalise(difficulty)}
+      {difficulty}
     </motion.button>
   ));
 

@@ -15,16 +15,16 @@ export const incorrectAlien =
   "https://assets8.lottiefiles.com/packages/lf20_2bjwh0kp.json";
 
 export const categories = [
-  "film_and_tv",
-  "geography",
-  "arts_and_literature",
-  "food_and_drink",
-  "general_knowledge",
-  "history",
-  "music",
-  "science",
-  "society_and_culture",
-  "sport_and_leisure",
+  "Film and TV",
+  "Geography",
+  "Arts and Literature",
+  "Food and Drink",
+  "General Knowledge",
+  "History",
+  "Music",
+  "Science",
+  "Society and Culture",
+  "Sport and Leisure",
 ];
 
-export const difficulties = ["easy", "medium", "hard"];
+export const difficulties = ["Easy", "Medium", "Hard"];
