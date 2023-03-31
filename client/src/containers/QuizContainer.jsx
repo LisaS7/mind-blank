@@ -15,13 +15,7 @@ import { Player, Controls } from "@lottiefiles/react-lottie-player";
 import { motion } from "framer-motion";
 import "./QuizContainer.css";
 
-export default function QuizContainer({
-  data,
-  setGameEnded,
-  getData,
-  score,
-  setScore,
-}) {
+export default function QuizContainer({ data, getData, score, setScore }) {
   const dispatch = useDispatch();
   const { highscore } = useSelector((state) => state.quiz);
 
@@ -139,11 +133,7 @@ export default function QuizContainer({
         )}
 
         <div>
-          <Timer
-            duration={duration}
-            setGameEnded={setGameEnded}
-            timerStarted={timerStarted}
-          />
+          <Timer duration={duration} timerStarted={timerStarted} />
         </div>
 
         <Answer
