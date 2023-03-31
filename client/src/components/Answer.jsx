@@ -1,5 +1,6 @@
 import "./Answer.css";
 import { motion } from "framer-motion";
+import { useSelector, useDispatch } from "react-redux";
 import { correctAnswerAudio, incorrectAnswerAudio } from "../constants";
 
 const answersVariant = {
@@ -9,16 +10,17 @@ const answersVariant = {
 
 export default function Answer({
   correct,
-  allAnswers,
   questionAnswered,
   correctAnswer,
   isCorrect,
 }) {
+  const { current } = useSelector((state) => state.quiz);
+
   const correctAudio = new Audio(correctAnswerAudio);
   const wrongAudio = new Audio(incorrectAnswerAudio);
 
   const handleAnswer = function (e) {
-    if (e.target.textContent === correct) {
+    if (e.target.textContent === current.correct) {
       correctAnswer();
       correctAudio.play();
     } else {
@@ -27,6 +29,7 @@ export default function Answer({
     questionAnswered();
   };
 
+  const allAnswers = [...current.incorrect, current.correct].sort();
   const answerElements = allAnswers.map((answer, index) => (
     <button
       className={

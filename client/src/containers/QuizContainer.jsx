@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   setScore,
   setQuestions,
+  setCurrentQuestion,
   restartGame,
   toggleTimerStarted,
 } from "../state/quizSlice";
@@ -67,9 +68,15 @@ export default function QuizContainer({ data, getData }) {
 
   if (!questions.length) return <Loading />;
 
-  const incorrectAnswers = questions[0].incorrectAnswers;
-  incorrectAnswers.push(questions[0].correctAnswer);
-  const allAnswers = [...new Set(incorrectAnswers)].sort();
+  const Q = questions[0];
+  dispatch(
+    setCurrentQuestion({
+      question: Q.question,
+      difficulty: Q.difficulty,
+      correct: Q.correctAnswer,
+      incorrect: Q.incorrectAnswers,
+    })
+  );
 
   const numberVariants = {
     initial: { y: 0 },
@@ -138,7 +145,6 @@ export default function QuizContainer({ data, getData }) {
 
         <Answer
           correct={questions[0].correctAnswer}
-          allAnswers={allAnswers}
           questionAnswered={questionAnswered}
           correctAnswer={correctAnswer}
           isCorrect={isCorrect}
