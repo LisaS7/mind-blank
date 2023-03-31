@@ -5,6 +5,7 @@ const initialState = {
   categories: { list: [], urlString: "" },
   difficulty: "",
   highscore: 0,
+  score: 0,
 };
 
 export const quizSlice = createSlice({
@@ -13,6 +14,9 @@ export const quizSlice = createSlice({
   reducers: {
     setStatus: (state, action) => {
       state.status = action.payload;
+    },
+    setScore: (state, action) => {
+      state.score = action.payload;
     },
     setCategory: (state, action) => {
       const newCategory = action.payload;
@@ -47,15 +51,21 @@ export const quizSlice = createSlice({
     newHighScore: (state, action) => {
       state.highscore = action.payload;
     },
+    restartGame: (state) => {
+      state.score = 0;
+      state.status = "menu";
+    },
   },
 });
 
 export const {
   setStatus,
+  setScore,
   setCategory,
   setDifficulty,
   setHighScore,
   newHighScore,
+  restartGame,
 } = quizSlice.actions;
 
 export default quizSlice.reducer;

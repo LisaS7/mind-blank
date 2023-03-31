@@ -10,10 +10,9 @@ import { getHighscores, postHighscores } from "../HighscoreService";
 export default function GameContainer() {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
-  // const [gameEnded, setGameEnded] = useState(false);
-  const [score, setScore] = useState(0);
+  // const [score, setScore] = useState(0);
 
-  const { status, categories, difficulty, highscore } = useSelector(
+  const { status, score, categories, difficulty, highscore } = useSelector(
     (state) => state.quiz
   );
 
@@ -36,6 +35,7 @@ export default function GameContainer() {
     });
   }, []);
 
+  // move logic to game end
   if (status === "end" && score > highscore) {
     dispatch(newHighScore(score));
     postHighscores({ highscore: score });
@@ -59,19 +59,14 @@ export default function GameContainer() {
   if (status === "end") {
     return (
       <div>
-        <GameEnd score={score} setScore={setScore} getData={getData} />
+        <GameEnd getData={getData} />
       </div>
     );
   }
 
   return (
     <div>
-      <QuizContainer
-        data={data}
-        getData={getData}
-        score={score}
-        setScore={setScore}
-      />
+      <QuizContainer data={data} getData={getData} />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setStatus } from "../state/quizSlice";
+import { setScore, restartGame } from "../state/quizSlice";
 import Answer from "../components/Answer";
 import Question from "../components/Question";
 import {
@@ -15,9 +15,9 @@ import { Player, Controls } from "@lottiefiles/react-lottie-player";
 import { motion } from "framer-motion";
 import "./QuizContainer.css";
 
-export default function QuizContainer({ data, getData, score, setScore }) {
+export default function QuizContainer({ data, getData }) {
   const dispatch = useDispatch();
-  const { highscore } = useSelector((state) => state.quiz);
+  const { score, highscore } = useSelector((state) => state.quiz);
 
   const [questions, setQuestions] = useState([]);
   const [displayAnswer, setDisplayAnswer] = useState(false);
@@ -39,17 +39,16 @@ export default function QuizContainer({ data, getData, score, setScore }) {
     const points = scoreValue[questionDifficulty];
     setIsCorrect(true);
     setPreviousScore(score);
-    setScore(score + points);
+    dispatch(setScore(score + points));
   }
 
   function handleReturn() {
-    dispatch(setStatus("menu"));
-    setScore(0);
     getData();
+    dispatch(restartGame());
   }
 
   function handleReset() {
-    setScore(0);
+    dispatch(setScore(0));
     setQuestions(data);
     getData();
 
