@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setCategory } from "../state/quizSlice";
 import { motion } from "framer-motion";
 import { categories, difficulties } from "../constants";
 import "./GameMenu.css";
@@ -28,22 +30,18 @@ const startButtonVariants = {
   },
 };
 
-export function GameMenu({ setStartGame, setCategory, setDifficulty }) {
+export function GameMenu({ setStartGame, setDifficulty }) {
+  const dispatch = useDispatch();
   const [hiddenCategory, setHiddenCategory] = useState(true);
   const [hiddenDifficulty, setHiddenDifficulty] = useState(true);
 
   function handleClick(e) {
-    const category = e.target.textContent;
-    // setCategory(category)
-    if (selectedCategories.includes(category)) {
-      const index = selectedCategories.indexOf(category);
-      selectedCategories.splice(index, 1);
+    if (e.target.classList.contains("background-green")) {
       e.target.classList.remove("background-green");
     } else {
-      selectedCategories.push(category);
       e.target.classList.add("background-green");
     }
-    setCategory(selectedCategories.join(","));
+    dispatch(setCategory(e.target.textContent));
   }
 
   function handleDifficulty(e) {
