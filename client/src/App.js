@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { useSelector, useDispatch } from "react-redux";
-import { setGameStatus } from "./state/quizSlice";
+import { useSelector } from "react-redux";
 
 import "./App.css";
 import Intro from "./components/Intro/Intro";
@@ -29,9 +28,8 @@ const curtainVariants = {
 };
 
 function App() {
-  const { gameStatus } = useSelector((state) => state.quiz);
+  const [gameStatus, setGameStatus] = useState("start");
   const [isPlaying, setIsPlaying] = useState(false);
-  const dispatch = useDispatch();
 
   const togglePlay = () => {
     setIsPlaying(!isPlaying);
@@ -40,7 +38,7 @@ function App() {
   const handleClick = () => {
     togglePlay();
     setTimeout(() => {
-      dispatch(setGameStatus("play"));
+      setGameStatus("play");
     }, "100");
   };
 
@@ -63,7 +61,7 @@ function App() {
             src={startShow}
             alt="start show button"
             onClick={() => {
-              dispatch(setGameStatus("intro"));
+              setGameStatus("intro");
             }}
           />
         </div>
