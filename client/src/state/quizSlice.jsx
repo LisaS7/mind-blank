@@ -4,6 +4,7 @@ const initialState = {
   status: "start",
   categories: { list: [], urlString: "" },
   difficulty: "",
+  highscore: 0,
 };
 
 export const quizSlice = createSlice({
@@ -27,7 +28,6 @@ export const quizSlice = createSlice({
       state.categories.list = currentCategories;
 
       quizSlice.caseReducers.setCategoryString(state);
-      console.log(current(state.categories));
     },
     setCategoryString: (state) => {
       state.categories.urlString = state.categories.list
@@ -38,9 +38,24 @@ export const quizSlice = createSlice({
     setDifficulty: (state, action) => {
       state.difficulty = action.payload;
     },
+    setHighScore: (state, action) => {
+      const highscores = action.payload.map((obj) => obj.highscore); // convert objects to array of scores
+      if (highscores.length) {
+        state.highscore = Math.max.apply(Math, highscores);
+      }
+    },
+    newHighScore: (state, action) => {
+      state.highscore = action.payload;
+    },
   },
 });
 
-export const { setStatus, setCategory, setDifficulty } = quizSlice.actions;
+export const {
+  setStatus,
+  setCategory,
+  setDifficulty,
+  setHighScore,
+  newHighScore,
+} = quizSlice.actions;
 
 export default quizSlice.reducer;

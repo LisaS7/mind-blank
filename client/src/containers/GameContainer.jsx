@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { setHighScore, newHighScore } from "../state/quizSlice";
 import GameEnd from "../components/GameEnd/GameEnd";
 import { GameMenu } from "../components/GameMenu";
 import Loading from "../components/Loading";
@@ -9,20 +10,17 @@ import { getHighscores, postHighscores } from "../HighscoreService";
 export default function GameContainer() {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
-  // const [difficulty, setDifficulty] = useState("");
   const [startGame, setStartGame] = useState(false);
   const [gameEnded, setGameEnded] = useState(false);
   const [score, setScore] = useState(0);
-  const [highscores, setHighscores] = useState([]);
 
-  const { list, urlString } = useSelector((state) => state.quiz.categories);
-  const categories = [...list];
-  const urlCategory = urlString;
+  const { categories } = useSelector((state) => state.quiz);
   const { difficulty } = useSelector((state) => state.quiz);
+  const { highscore } = useSelector((state) => state.quiz);
 
   async function getData() {
     const url = `https://the-trivia-api.com/api/questions?${
-      categories.length && `categories=${urlCategory}`
+      categories.list.length && `categories=${categories.urlString}`
     }&limit=50&${difficulty && `difficulty=${difficulty.toLowerCase()}`}`;
     const response = await fetch(url);
     const jsonData = await response.json();
@@ -31,29 +29,16 @@ export default function GameContainer() {
 
   useEffect(() => {
     getData();
-  }, [difficulty]);
+  }, []);
 
-  //  BACKEND SCORE DATA SECTION
   useEffect(() => {
-    getHighscores().then((allHighscores) => {
-      setHighscores(allHighscores);
+    getHighscores().then((highscoreData) => {
+      dispatch(setHighScore(highscoreData));
     });
   }, []);
 
-  const eachHighScore = highscores.map((highscore) => {
-    return highscore.highscore;
-  });
-  // this gets back an array of scores
-
-  let highestScore;
-  if (highscores.length) {
-    highestScore = Math.max.apply(Math, eachHighScore);
-  } else {
-    highestScore = 0;
-  }
-
-  if (gameEnded && score > highestScore) {
-    setHighscores([...highscores, score]);
+  if (gameEnded && score > highscore) {
+    dispatch(newHighScore(score));
     postHighscores({ highscore: score });
   }
 
@@ -94,7 +79,7 @@ export default function GameContainer() {
         setGameEnded={setGameEnded}
         setStartGame={setStartGame}
         getData={getData}
-        highestScore={highestScore}
+        highestScore={highscore}
         score={score}
         setScore={setScore}
       />
