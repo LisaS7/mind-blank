@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setScore, restartGame, toggleTimerStarted } from "../state/quizSlice";
+import {
+  setScore,
+  setQuestions,
+  restartGame,
+  toggleTimerStarted,
+} from "../state/quizSlice";
 import Answer from "../components/Answer";
 import Question from "../components/Question";
 import {
@@ -17,9 +22,8 @@ import "./QuizContainer.css";
 
 export default function QuizContainer({ data, getData }) {
   const dispatch = useDispatch();
-  const { score, highscore } = useSelector((state) => state.quiz);
+  const { questions, score, highscore } = useSelector((state) => state.quiz);
 
-  const [questions, setQuestions] = useState([]);
   const [displayAnswer, setDisplayAnswer] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [previousScore, setPreviousScore] = useState(0);
@@ -28,7 +32,7 @@ export default function QuizContainer({ data, getData }) {
     setDisplayAnswer(true);
     setTimeout(function () {
       const questionsCopy = [...questions];
-      setQuestions(questionsCopy.slice(1));
+      dispatch(setQuestions(questionsCopy.slice(1)));
     }, answerDelay);
   }
 
@@ -47,13 +51,13 @@ export default function QuizContainer({ data, getData }) {
 
   function handleReset() {
     dispatch(setScore(0));
-    setQuestions(data);
+    dispatch(setQuestions(data));
     getData();
     dispatch(toggleTimerStarted());
   }
 
   useEffect(() => {
-    setQuestions(data);
+    dispatch(setQuestions(data));
   }, [data]);
 
   useEffect(() => {

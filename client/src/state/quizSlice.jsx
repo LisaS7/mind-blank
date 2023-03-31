@@ -4,6 +4,7 @@ const initialState = {
   status: "start",
   categories: { list: [], urlString: "" },
   difficulty: "",
+  questions: [],
   highscore: 0,
   score: 0,
   timer: { duration: 60, started: true },
@@ -43,6 +44,9 @@ export const quizSlice = createSlice({
     setDifficulty: (state, action) => {
       state.difficulty = action.payload;
     },
+    setQuestions: (state, action) => {
+      state.questions = action.payload;
+    },
     setHighScore: (state, action) => {
       const highscores = action.payload.map((obj) => obj.highscore); // convert objects to array of scores
       if (highscores.length) {
@@ -67,6 +71,7 @@ export const {
   setScore,
   setCategory,
   setDifficulty,
+  setQuestions,
   setHighScore,
   newHighScore,
   restartGame,
