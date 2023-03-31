@@ -22,7 +22,6 @@ export default function QuizContainer({ data, getData }) {
   const [questions, setQuestions] = useState([]);
   const [displayAnswer, setDisplayAnswer] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
-  const [duration] = useState(60);
   const [timerStarted, setTimerStarted] = useState(true);
   const [previousScore, setPreviousScore] = useState(0);
 
@@ -132,7 +131,7 @@ export default function QuizContainer({ data, getData }) {
         )}
 
         <div>
-          <Timer duration={duration} timerStarted={timerStarted} />
+          <Timer timerStarted={timerStarted} />
         </div>
 
         <Answer

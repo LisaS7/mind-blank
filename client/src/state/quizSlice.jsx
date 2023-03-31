@@ -6,6 +6,7 @@ const initialState = {
   difficulty: "",
   highscore: 0,
   score: 0,
+  timer: { duration: 60 },
 };
 
 export const quizSlice = createSlice({
@@ -66,6 +67,7 @@ export const {
   setHighScore,
   newHighScore,
   restartGame,
+  setTimeRemaining,
 } = quizSlice.actions;
 
 export default quizSlice.reducer;

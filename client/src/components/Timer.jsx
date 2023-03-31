@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { setStatus } from "../state/quizSlice";
 import "./Timer.css";
 
-const Timer = ({ duration, timerStarted }) => {
+const Timer = ({ timerStarted }) => {
   const dispatch = useDispatch();
-  const [timeLeft, setTimeLeft] = useState(duration);
+  const { timer } = useSelector((state) => state.quiz);
+  const [timeLeft, setTimeLeft] = useState(timer.duration);
 
   useEffect(() => {
-    setTimeLeft(duration);
+    setTimeLeft(timer.duration);
     const intervalId = setInterval(() => {
       setTimeLeft((timeLeft) => timeLeft - 1);
     }, 1000);
@@ -16,7 +17,7 @@ const Timer = ({ duration, timerStarted }) => {
     return () => clearInterval(intervalId);
   }, [timerStarted]);
 
-  let percentageLeft = (timeLeft / duration) * 100;
+  let percentageLeft = (timeLeft / timer.duration) * 100;
 
   if (percentageLeft === 0) {
     setTimeout(() => {

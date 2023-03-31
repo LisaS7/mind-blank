@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
-import { setStatus, setScore, newHighScore } from "../../state/quizSlice";
+import { newHighScore, restartGame } from "../../state/quizSlice";
 import { postHighscores } from "../../HighscoreService";
 import { Player, Controls } from "@lottiefiles/react-lottie-player";
 import { winScore } from "../../constants";
@@ -37,8 +37,7 @@ export default function GameEnd({ getData }) {
   const { score, highscore } = useSelector((state) => state.quiz);
 
   function handleClick() {
-    dispatch(setStatus("menu"));
-    dispatch(setScore(0));
+    dispatch(restartGame());
     getData();
   }
 
