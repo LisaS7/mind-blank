@@ -15,19 +15,17 @@ import "./QuizContainer.css";
 
 export default function QuizContainer({
   data,
-  gameEnded,
   setGameEnded,
   setStartGame,
   getData,
   highestScore,
   score,
   setScore,
-  setCategory,
 }) {
   const [questions, setQuestions] = useState([]);
   const [displayAnswer, setDisplayAnswer] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
-  const [duration, setDuration] = useState(60);
+  const [duration] = useState(60);
   const [timerStarted, setTimerStarted] = useState(true);
   const [previousScore, setPreviousScore] = useState(0);
 

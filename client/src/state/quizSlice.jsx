@@ -1,13 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  gameStatus: { intro: true },
+  status: "start",
 };
 
 export const quizSlice = createSlice({
   name: "quiz",
   initialState,
-  reducers: {},
+  reducers: {
+    setStatus: (state, action) => {
+      state.status = action.payload;
+    },
+  },
 });
+
+export const { setStatus } = quizSlice.actions;
 
 export default quizSlice.reducer;
