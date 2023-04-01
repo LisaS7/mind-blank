@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  setScore,
   setQuestions,
   resetCurrent,
+  resetRound,
   restartGame,
-  toggleTimerStarted,
 } from "../state/quizSlice";
 import Answer from "../components/Answer";
 import Question from "../components/Question";
@@ -27,10 +26,9 @@ export default function QuizContainer({ data, getData }) {
   }
 
   function handleReset() {
-    dispatch(setScore(0));
+    dispatch(resetRound());
     getData();
     dispatch(setQuestions(data));
-    dispatch(toggleTimerStarted());
   }
 
   useEffect(() => {

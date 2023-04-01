@@ -78,6 +78,10 @@ export const quizSlice = createSlice({
         state.current.incorrect = Q.incorrectAnswers;
       }
     },
+    resetRound: (state) => {
+      state.score = 0;
+      state.timer.started = false;
+    },
     setHighScore: (state, action) => {
       const highscores = action.payload.map((obj) => obj.highscore); // convert objects to array of scores
       if (highscores.length) {
@@ -90,9 +94,7 @@ export const quizSlice = createSlice({
     restartGame: (state) => {
       state.score = 0;
       state.status = "menu";
-    },
-    toggleTimerStarted: (state) => {
-      state.timer.started = !state.timer.started;
+      state.timer.started = false;
     },
     setShowAnswer: (state) => {
       state.showAnswer = true;
@@ -109,10 +111,10 @@ export const {
   setCurrentQuestion,
   correctAnswer,
   resetCurrent,
+  resetRound,
   setHighScore,
   newHighScore,
   restartGame,
-  toggleTimerStarted,
   setShowAnswer,
 } = quizSlice.actions;
 
