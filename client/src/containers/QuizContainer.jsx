@@ -3,8 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   setScore,
   setQuestions,
-  nextQuestion,
-  setCurrentQuestion,
+  resetCurrent,
   restartGame,
   toggleTimerStarted,
 } from "../state/quizSlice";
@@ -39,18 +38,7 @@ export default function QuizContainer({ data, getData }) {
   }, [data]);
 
   useEffect(() => {
-    dispatch(nextQuestion());
-    if (questions.length) {
-      const Q = questions[0];
-      dispatch(
-        setCurrentQuestion({
-          question: Q.question,
-          difficulty: Q.difficulty,
-          correct: Q.correctAnswer,
-          incorrect: Q.incorrectAnswers,
-        })
-      );
-    }
+    dispatch(resetCurrent());
   }, [questions]);
 
   if (!questions.length) return <Loading />;

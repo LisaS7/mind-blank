@@ -34,8 +34,8 @@ export default function Answer() {
     }
     dispatch(setShowAnswer());
     setTimeout(function () {
-      const questionsCopy = [...questions]; // TODO: refactor to remove?
-      dispatch(setQuestions(questionsCopy.slice(1)));
+      const questionsCopy = [...questions.slice(1)];
+      dispatch(setQuestions(questionsCopy));
 
       const Q = questions[0];
       dispatch(
@@ -50,7 +50,7 @@ export default function Answer() {
   };
 
   const allAnswers = [...current.incorrect, current.correct].sort();
-  const answerElements = allAnswers.map((answer, index) => (
+  const answerElements = allAnswers.map((answer) => (
     <button
       className={
         isCorrect && answer === current.correct
@@ -58,7 +58,7 @@ export default function Answer() {
           : "answer-btn"
       }
       onClick={(e) => handleAnswer(e)}
-      key={index}
+      key={answer}
     >
       {answer}
     </button>
