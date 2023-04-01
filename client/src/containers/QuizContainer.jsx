@@ -6,6 +6,7 @@ import {
   resetRound,
   restartGame,
 } from "../state/quizSlice";
+import Header from "../components/Quiz/Header";
 import Answer from "../components/Quiz/Answer";
 import Question from "../components/Quiz/Question";
 import { correctAlien, incorrectAlien } from "../constants";
@@ -54,10 +55,7 @@ export default function QuizContainer({ data, getData }) {
 
   return (
     <>
-      <div>
-        <button onClick={handleReturn}>Return To Menu</button>
-        <button onClick={handleReset}>Reset</button>
-      </div>
+      <Header getData={getData} data={data} />
       <div className="scores-container">
         <p className="score">Highscore ${highscore}</p>
         <div>

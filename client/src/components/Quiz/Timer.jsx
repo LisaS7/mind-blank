@@ -13,9 +13,8 @@ const Timer = () => {
     const intervalId = setInterval(() => {
       setTimeLeft((timeLeft) => timeLeft - 1);
     }, 1000);
-
     return () => clearInterval(intervalId);
-  }, [timer.started]);
+  }, [timer]);
 
   let percentageLeft = (timeLeft / timer.duration) * 100;
 
@@ -26,11 +25,9 @@ const Timer = () => {
   }
 
   return (
-    <>
-      <div className="timer-bar-container">
-        <div className="timer-bar" style={{ width: `${percentageLeft}%` }} />
-      </div>
-    </>
+    <div className="timer-bar-container">
+      <div className="timer-bar" style={{ width: `${percentageLeft}%` }} />
+    </div>
   );
 };
 

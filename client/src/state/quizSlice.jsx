@@ -1,6 +1,8 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 import { scoreValue } from "../constants";
 
+const TIMER = 60;
+
 const initialState = {
   status: "start",
   categories: { list: [], urlString: "" },
@@ -17,7 +19,7 @@ const initialState = {
   highscore: 0,
   score: 0,
   previousScore: 0,
-  timer: { duration: 60, started: true },
+  timer: { duration: TIMER, started: true },
 };
 
 export const quizSlice = createSlice({
@@ -86,7 +88,7 @@ export const quizSlice = createSlice({
     },
     resetRound: (state) => {
       state.score = 0;
-      state.timer.started = false;
+      state.timer = { duration: TIMER, started: false };
     },
     setHighScore: (state, action) => {
       const highscores = action.payload.map((obj) => obj.highscore); // convert objects to array of scores
