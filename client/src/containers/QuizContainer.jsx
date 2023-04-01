@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setQuestions,
-  resetCurrent,
+  nextCurrentQuestion,
   resetRound,
   restartGame,
 } from "../state/quizSlice";
@@ -36,7 +36,7 @@ export default function QuizContainer({ data, getData }) {
   }, [data]);
 
   useEffect(() => {
-    dispatch(resetCurrent());
+    dispatch(nextCurrentQuestion());
   }, [questions]);
 
   if (!questions.length) return <Loading />;

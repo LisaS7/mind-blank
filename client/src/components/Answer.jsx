@@ -37,15 +37,15 @@ export default function Answer() {
       const questionsCopy = [...questions.slice(1)];
       dispatch(setQuestions(questionsCopy));
 
-      const Q = questions[0];
-      dispatch(
-        setCurrentQuestion({
-          question: Q.question,
-          difficulty: Q.difficulty,
-          correct: Q.correctAnswer,
-          incorrect: Q.incorrectAnswers,
-        })
-      );
+      // const Q = questions[0];
+      // dispatch(
+      //   setCurrentQuestion({
+      //     question: Q.question,
+      //     difficulty: Q.difficulty,
+      //     correct: Q.correctAnswer,
+      //     incorrect: Q.incorrectAnswers,
+      //   })
+      // );
     }, answerDelay);
   };
 

@@ -56,6 +56,14 @@ export const quizSlice = createSlice({
     },
     setQuestions: (state, action) => {
       state.questions = action.payload;
+
+      if (state.questions.length) {
+        const Q = state.questions[0];
+        state.current.question = Q.question;
+        state.current.difficulty = Q.difficulty;
+        state.current.correct = Q.correctAnswer;
+        state.current.incorrect = Q.incorrectAnswers;
+      }
     },
     setCurrentQuestion: (state, action) => {
       state.current = action.payload;
@@ -65,8 +73,9 @@ export const quizSlice = createSlice({
       state.isCorrect = true;
       state.previousScore = state.score;
       state.score += points;
+      console.log(points);
     },
-    resetCurrent: (state) => {
+    nextCurrentQuestion: (state) => {
       state.isCorrect = false;
       state.showAnswer = false;
 
@@ -110,7 +119,7 @@ export const {
   setQuestions,
   setCurrentQuestion,
   correctAnswer,
-  resetCurrent,
+  nextCurrentQuestion,
   resetRound,
   setHighScore,
   newHighScore,
