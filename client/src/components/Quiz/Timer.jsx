@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setStatus } from "../state/quizSlice";
+import { setStatus } from "../../state/quizSlice";
 import "./Timer.css";
 
 const Timer = () => {

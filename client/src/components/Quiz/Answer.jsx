@@ -1,12 +1,16 @@
 import "./Answer.css";
 import { motion } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
-import { correctAnswer, setShowAnswer, setQuestions } from "../state/quizSlice";
+import {
+  correctAnswer,
+  setShowAnswer,
+  setQuestions,
+} from "../../state/quizSlice";
 import {
   answerDelay,
   correctAnswerAudio,
   incorrectAnswerAudio,
-} from "../constants";
+} from "../../constants";
 
 const answersVariant = {
   initial: { y: "110vh" },

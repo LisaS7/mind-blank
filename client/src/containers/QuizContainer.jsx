@@ -6,10 +6,10 @@ import {
   resetRound,
   restartGame,
 } from "../state/quizSlice";
-import Answer from "../components/Answer";
-import Question from "../components/Question";
+import Answer from "../components/Quiz/Answer";
+import Question from "../components/Quiz/Question";
 import { correctAlien, incorrectAlien } from "../constants";
-import Timer from "../components/Timer";
+import Timer from "../components/Quiz/Timer";
 import Loading from "../components/Loading";
 import { Player, Controls } from "@lottiefiles/react-lottie-player";
 import { motion } from "framer-motion";
