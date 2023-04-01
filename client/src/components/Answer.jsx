@@ -1,12 +1,7 @@
 import "./Answer.css";
 import { motion } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  correctAnswer,
-  setShowAnswer,
-  setQuestions,
-  setCurrentQuestion,
-} from "../state/quizSlice";
+import { correctAnswer, setShowAnswer, setQuestions } from "../state/quizSlice";
 import {
   answerDelay,
   correctAnswerAudio,
@@ -36,16 +31,6 @@ export default function Answer() {
     setTimeout(function () {
       const questionsCopy = [...questions.slice(1)];
       dispatch(setQuestions(questionsCopy));
-
-      // const Q = questions[0];
-      // dispatch(
-      //   setCurrentQuestion({
-      //     question: Q.question,
-      //     difficulty: Q.difficulty,
-      //     correct: Q.correctAnswer,
-      //     incorrect: Q.incorrectAnswers,
-      //   })
-      // );
     }, answerDelay);
   };
 

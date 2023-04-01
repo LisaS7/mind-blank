@@ -65,9 +65,6 @@ export const quizSlice = createSlice({
         state.current.incorrect = Q.incorrectAnswers;
       }
     },
-    setCurrentQuestion: (state, action) => {
-      state.current = action.payload;
-    },
     correctAnswer: (state) => {
       const points = scoreValue[state.current.difficulty];
       state.isCorrect = true;
@@ -117,7 +114,6 @@ export const {
   setCategory,
   setDifficulty,
   setQuestions,
-  setCurrentQuestion,
   correctAnswer,
   nextCurrentQuestion,
   resetRound,
