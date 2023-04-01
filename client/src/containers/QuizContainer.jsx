@@ -27,9 +27,7 @@ export default function QuizContainer({ data, getData }) {
       <Header getData={getData} data={data} />
       <div className="container-for-all">
         <Question />
-
         <Timer />
-
         <Answer />
       </div>
     </>
