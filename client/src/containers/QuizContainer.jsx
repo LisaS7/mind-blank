@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setScore,
@@ -7,11 +7,10 @@ import {
   setCurrentQuestion,
   restartGame,
   toggleTimerStarted,
-  handleAnswer,
 } from "../state/quizSlice";
 import Answer from "../components/Answer";
 import Question from "../components/Question";
-import { answerDelay, correctAlien, incorrectAlien } from "../constants";
+import { correctAlien, incorrectAlien } from "../constants";
 import Timer from "../components/Timer";
 import Loading from "../components/Loading";
 import { Player, Controls } from "@lottiefiles/react-lottie-player";
@@ -20,33 +19,8 @@ import "./QuizContainer.css";
 
 export default function QuizContainer({ data, getData }) {
   const dispatch = useDispatch();
-  const {
-    questions,
-    current,
-    score,
-    isCorrect,
-    showAnswer,
-    previousScore,
-    highscore,
-  } = useSelector((state) => state.quiz);
-
-  function questionAnswered() {
-    dispatch(handleAnswer());
-    setTimeout(function () {
-      const questionsCopy = [...questions]; // TODO: refactor to remove?
-      dispatch(setQuestions(questionsCopy.slice(1)));
-
-      const Q = questions[0];
-      dispatch(
-        setCurrentQuestion({
-          question: Q.question,
-          difficulty: Q.difficulty,
-          correct: Q.correctAnswer,
-          incorrect: Q.incorrectAnswers,
-        })
-      );
-    }, answerDelay);
-  }
+  const { questions, score, isCorrect, showAnswer, previousScore, highscore } =
+    useSelector((state) => state.quiz);
 
   function handleReturn() {
     getData();
@@ -146,7 +120,7 @@ export default function QuizContainer({ data, getData }) {
           <Timer />
         </div>
 
-        <Answer questionAnswered={questionAnswered} />
+        <Answer />
       </div>
     </>
   );

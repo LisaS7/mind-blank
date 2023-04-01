@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setStatus } from "../../state/quizSlice";
 import { motion } from "framer-motion";
 import "./intro.css";

@@ -1,17 +1,26 @@
 import "./Answer.css";
 import { motion } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
-import { correctAnswer } from "../state/quizSlice";
-import { correctAnswerAudio, incorrectAnswerAudio } from "../constants";
+import {
+  correctAnswer,
+  setShowAnswer,
+  setQuestions,
+  setCurrentQuestion,
+} from "../state/quizSlice";
+import {
+  answerDelay,
+  correctAnswerAudio,
+  incorrectAnswerAudio,
+} from "../constants";
 
 const answersVariant = {
   initial: { y: "110vh" },
   animate: { y: 0, transition: { duration: 1.5 } },
 };
 
-export default function Answer({ questionAnswered }) {
+export default function Answer() {
   const dispatch = useDispatch();
-  const { current, isCorrect } = useSelector((state) => state.quiz);
+  const { questions, current, isCorrect } = useSelector((state) => state.quiz);
 
   const correctAudio = new Audio(correctAnswerAudio);
   const wrongAudio = new Audio(incorrectAnswerAudio);
@@ -23,7 +32,21 @@ export default function Answer({ questionAnswered }) {
     } else {
       wrongAudio.play();
     }
-    questionAnswered();
+    dispatch(setShowAnswer());
+    setTimeout(function () {
+      const questionsCopy = [...questions]; // TODO: refactor to remove?
+      dispatch(setQuestions(questionsCopy.slice(1)));
+
+      const Q = questions[0];
+      dispatch(
+        setCurrentQuestion({
+          question: Q.question,
+          difficulty: Q.difficulty,
+          correct: Q.correctAnswer,
+          incorrect: Q.incorrectAnswers,
+        })
+      );
+    }, answerDelay);
   };
 
   const allAnswers = [...current.incorrect, current.correct].sort();

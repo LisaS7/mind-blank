@@ -86,7 +86,7 @@ export const quizSlice = createSlice({
     toggleTimerStarted: (state) => {
       state.timer.started = !state.timer.started;
     },
-    handleAnswer: (state) => {
+    setShowAnswer: (state) => {
       state.showAnswer = true;
     },
   },
@@ -105,7 +105,7 @@ export const {
   newHighScore,
   restartGame,
   toggleTimerStarted,
-  handleAnswer,
+  setShowAnswer,
 } = quizSlice.actions;
 
 export default quizSlice.reducer;

@@ -10,7 +10,6 @@ import QuizContainer from "./QuizContainer";
 export default function GameContainer() {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
-
   const { status, categories, difficulty } = useSelector((state) => state.quiz);
 
   async function getData() {
