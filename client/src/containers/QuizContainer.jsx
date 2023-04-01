@@ -139,7 +139,7 @@ export default function QuizContainer({ data, getData }) {
             </Player>
           </div>
         ) : (
-          <Question question={questions[0].question} />
+          <Question />
         )}
 
         <div>
