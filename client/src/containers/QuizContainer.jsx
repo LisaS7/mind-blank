@@ -3,18 +3,15 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   setScore,
   setQuestions,
+  nextQuestion,
   setCurrentQuestion,
   restartGame,
   toggleTimerStarted,
+  handleAnswer,
 } from "../state/quizSlice";
 import Answer from "../components/Answer";
 import Question from "../components/Question";
-import {
-  answerDelay,
-  scoreValue,
-  correctAlien,
-  incorrectAlien,
-} from "../constants";
+import { answerDelay, correctAlien, incorrectAlien } from "../constants";
 import Timer from "../components/Timer";
 import Loading from "../components/Loading";
 import { Player, Controls } from "@lottiefiles/react-lottie-player";
@@ -23,26 +20,27 @@ import "./QuizContainer.css";
 
 export default function QuizContainer({ data, getData }) {
   const dispatch = useDispatch();
-  const { questions, score, highscore } = useSelector((state) => state.quiz);
+  const { current, score, isCorrect, showAnswer, previousScore, highscore } =
+    useSelector((state) => state.quiz);
 
-  const [displayAnswer, setDisplayAnswer] = useState(false);
-  const [isCorrect, setIsCorrect] = useState(false);
-  const [previousScore, setPreviousScore] = useState(0);
+  const [questions, setQuestions] = useState([]);
 
   function questionAnswered() {
-    setDisplayAnswer(true);
+    dispatch(handleAnswer());
     setTimeout(function () {
-      const questionsCopy = [...questions];
-      dispatch(setQuestions(questionsCopy.slice(1)));
-    }, answerDelay);
-  }
+      const questionsCopy = [...questions]; // TODO: refactor to remove?
+      setQuestions(questionsCopy.slice(1));
 
-  function correctAnswer() {
-    const questionDifficulty = questions[0].difficulty;
-    const points = scoreValue[questionDifficulty];
-    setIsCorrect(true);
-    setPreviousScore(score);
-    dispatch(setScore(score + points));
+      const Q = questions[0];
+      dispatch(
+        setCurrentQuestion({
+          question: Q.question,
+          difficulty: Q.difficulty,
+          correct: Q.correctAnswer,
+          incorrect: Q.incorrectAnswers,
+        })
+      );
+    }, answerDelay);
   }
 
   function handleReturn() {
@@ -52,31 +50,31 @@ export default function QuizContainer({ data, getData }) {
 
   function handleReset() {
     dispatch(setScore(0));
-    dispatch(setQuestions(data));
     getData();
+    setQuestions(data);
     dispatch(toggleTimerStarted());
   }
 
   useEffect(() => {
-    dispatch(setQuestions(data));
+    setQuestions(data);
   }, [data]);
 
   useEffect(() => {
-    setDisplayAnswer(false);
-    setIsCorrect(false);
+    dispatch(nextQuestion());
+    if (questions.length) {
+      const Q = questions[0];
+      dispatch(
+        setCurrentQuestion({
+          question: Q.question,
+          difficulty: Q.difficulty,
+          correct: Q.correctAnswer,
+          incorrect: Q.incorrectAnswers,
+        })
+      );
+    }
   }, [questions]);
 
   if (!questions.length) return <Loading />;
-
-  const Q = questions[0];
-  dispatch(
-    setCurrentQuestion({
-      question: Q.question,
-      difficulty: Q.difficulty,
-      correct: Q.correctAnswer,
-      incorrect: Q.incorrectAnswers,
-    })
-  );
 
   const numberVariants = {
     initial: { y: 0 },
@@ -121,7 +119,7 @@ export default function QuizContainer({ data, getData }) {
       </div>
 
       <div className="container-for-all">
-        {displayAnswer ? (
+        {showAnswer ? (
           <div>
             <Player
               autoplay
@@ -143,12 +141,7 @@ export default function QuizContainer({ data, getData }) {
           <Timer />
         </div>
 
-        <Answer
-          correct={questions[0].correctAnswer}
-          questionAnswered={questionAnswered}
-          correctAnswer={correctAnswer}
-          isCorrect={isCorrect}
-        />
+        <Answer questionAnswered={questionAnswered} />
       </div>
     </>
   );

@@ -24,7 +24,7 @@ export default function GameContainer() {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [categories, difficulty]);
 
   useEffect(() => {
     getHighscores().then((highscoreData) => {

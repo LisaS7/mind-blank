@@ -1,4 +1,5 @@
 import { createSlice, current } from "@reduxjs/toolkit";
+import { scoreValue } from "../constants";
 
 const initialState = {
   status: "start",
@@ -11,9 +12,11 @@ const initialState = {
     correct: "",
     incorrect: [],
   },
+  isCorrect: false,
   showAnswer: false,
   highscore: 0,
   score: 0,
+  previousScore: 0,
   timer: { duration: 60, started: true },
 };
 
@@ -57,6 +60,16 @@ export const quizSlice = createSlice({
     setCurrentQuestion: (state, action) => {
       state.current = action.payload;
     },
+    correctAnswer: (state) => {
+      const points = scoreValue[current.difficulty];
+      state.isCorrect = true;
+      state.previousScore = state.score;
+      state.score += points;
+    },
+    nextQuestion: (state) => {
+      state.isCorrect = false;
+      state.showAnswer = false;
+    },
     setHighScore: (state, action) => {
       const highscores = action.payload.map((obj) => obj.highscore); // convert objects to array of scores
       if (highscores.length) {
@@ -73,6 +86,9 @@ export const quizSlice = createSlice({
     toggleTimerStarted: (state) => {
       state.timer.started = !state.timer.started;
     },
+    handleAnswer: (state) => {
+      state.showAnswer = true;
+    },
   },
 });
 
@@ -83,10 +99,13 @@ export const {
   setDifficulty,
   setQuestions,
   setCurrentQuestion,
+  correctAnswer,
+  nextQuestion,
   setHighScore,
   newHighScore,
   restartGame,
   toggleTimerStarted,
+  handleAnswer,
 } = quizSlice.actions;
 
 export default quizSlice.reducer;
