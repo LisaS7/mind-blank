@@ -20,16 +20,21 @@ import "./QuizContainer.css";
 
 export default function QuizContainer({ data, getData }) {
   const dispatch = useDispatch();
-  const { current, score, isCorrect, showAnswer, previousScore, highscore } =
-    useSelector((state) => state.quiz);
-
-  const [questions, setQuestions] = useState([]);
+  const {
+    questions,
+    current,
+    score,
+    isCorrect,
+    showAnswer,
+    previousScore,
+    highscore,
+  } = useSelector((state) => state.quiz);
 
   function questionAnswered() {
     dispatch(handleAnswer());
     setTimeout(function () {
       const questionsCopy = [...questions]; // TODO: refactor to remove?
-      setQuestions(questionsCopy.slice(1));
+      dispatch(setQuestions(questionsCopy.slice(1)));
 
       const Q = questions[0];
       dispatch(
@@ -51,12 +56,12 @@ export default function QuizContainer({ data, getData }) {
   function handleReset() {
     dispatch(setScore(0));
     getData();
-    setQuestions(data);
+    dispatch(setQuestions(data));
     dispatch(toggleTimerStarted());
   }
 
   useEffect(() => {
-    setQuestions(data);
+    dispatch(setQuestions(data));
   }, [data]);
 
   useEffect(() => {
