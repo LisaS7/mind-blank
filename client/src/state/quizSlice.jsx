@@ -61,7 +61,7 @@ export const quizSlice = createSlice({
       state.current = action.payload;
     },
     correctAnswer: (state) => {
-      const points = scoreValue[current.difficulty];
+      const points = scoreValue[state.current.difficulty];
       state.isCorrect = true;
       state.previousScore = state.score;
       state.score += points;
